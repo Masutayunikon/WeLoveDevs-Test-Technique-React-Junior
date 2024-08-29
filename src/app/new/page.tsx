@@ -12,6 +12,7 @@ export default function CreateNewJob() {
 
   const [error, setError] = useState<string|null>(null);
 
+  const [success, setSuccess] = useState<boolean>(false);
   // Function to handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -44,7 +45,19 @@ export default function CreateNewJob() {
       }
 
       const result = await response.json();
+      setSuccess(true);
       console.log('Job created successfully:', result);
+      // Reset form data
+      setFormData({
+        title: '',
+        description: '',
+        descriptionPreview: ''
+      });
+
+      // set success to false after 3 seconds
+      setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
 
     } catch (error) {
       console.error('Error creating job:', error);
@@ -54,7 +67,7 @@ export default function CreateNewJob() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-semibold mb-8">Create New Job</h1>
+      <h1 className="text-3xl text-black font-semibold mb-8">Create New Job</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="title" className="block mb-2">
           Title
@@ -63,7 +76,7 @@ export default function CreateNewJob() {
           type="text"
           id="title"
           name="title"
-          className="w-full px-4 py-2 mb-4 rounded-md border border-gray-300"
+          className="w-full px-4 py-2 mb-4 rounded-md border border-gray-300 text-black"
           value={formData.title}
           onChange={handleChange}
         />
@@ -73,7 +86,7 @@ export default function CreateNewJob() {
         <textarea
           id="description"
           name="description"
-          className="w-full px-4 py-2 mb-4 rounded-md border border-gray-300"
+          className="w-full px-4 py-2 mb-4 rounded-md border border-gray-300 text-black"
           value={formData.description}
           onChange={handleChange}
         />
@@ -84,7 +97,7 @@ export default function CreateNewJob() {
           type="text"
           id="descriptionPreview"
           name="descriptionPreview"
-          className="w-full px-4 py-2 mb-4 rounded-md border border-gray-300"
+          className="w-full px-4 py-2 mb-4 rounded-md border border-gray-300 text-black"
           value={formData.descriptionPreview}
           onChange={handleChange}
         />
@@ -98,6 +111,10 @@ export default function CreateNewJob() {
 
       {error ? (
         <p className="text-red-500 mt-4">{error}</p>
+      ) : null}
+
+      {success ? (
+        <p className="text-green-500 mt-4">Job created successfully</p>
       ) : null}
     </div>
   );
