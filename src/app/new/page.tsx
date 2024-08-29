@@ -34,10 +34,12 @@ export default function CreateNewJob() {
         body: JSON.stringify(formData)
       });
 
+      console.log('Response:', response.status);
+
       if (!response.ok) {
         const error = await response.json();
         console.error('Failed to create job:', error);
-        setError(error.message as string);
+        setError(error.body.message as string);
         return;
       }
 

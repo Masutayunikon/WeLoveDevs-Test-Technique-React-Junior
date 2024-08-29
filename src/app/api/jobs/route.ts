@@ -10,21 +10,18 @@ export async function GET() {
     if (snapshot.exists()) {
       const jobsData = Object.values(snapshot.val());
       return NextResponse.json({
-        status: 200,
         body: jobsData
-      });
+      }, {status: 200});
     } else {
       return NextResponse.json({
-        status: 404,
         body: { message: 'No jobs found' }
-      });
+      }, {status: 404});
     }
   } catch (error) {
     console.error('Error processing request:', error);
     return NextResponse.json({
-      status: 500,
       body: { message: 'Server error' }
-    });
+    }, {status: 500});
   }
 }
 
@@ -41,9 +38,8 @@ export async function POST(req: Request) {
 
     if (!job.title || !job.description || !job.descriptionPreview) {
       return NextResponse.json({
-        status: 400,
         body: { message: 'Invalid job data' }
-      });
+      }, {status: 400});
     }
 
     const jobsRef = ref(database, 'jobs');
@@ -54,15 +50,13 @@ export async function POST(req: Request) {
     await set(newJobRef, job);
 
     return NextResponse.json({
-      status: 201,
       body: {message: 'Job added successfully', job}
-    });
+    }, {status: 201});
 
   } catch (error) {
     console.error('Error processing request:', error);
     return NextResponse.json({
-      status: 500,
       body: {message: 'Server error'}
-    });
+    }, {status: 500});
   }
 }
