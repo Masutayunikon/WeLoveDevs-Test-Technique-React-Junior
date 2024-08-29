@@ -1,6 +1,8 @@
 'use client'
 
 import React, { useState } from 'react';
+import {ArrowLeftIcon} from "@heroicons/react/16/solid";
+import Link from "next/link";
 
 export default function CreateNewJob() {
   // State to store form data
@@ -67,7 +69,12 @@ export default function CreateNewJob() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl text-black font-semibold mb-8">Create New Job</h1>
+      <div className="flex">
+        <Link href="/" className="flex items-center gap-x-1.5 px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-full h-4/5 mt-1 hover:bg-blue-700">
+          <ArrowLeftIcon className="size-4"/>
+        </Link>
+      </div>
+      <h1 className="text-3xl text-white font-semibold mb-2 mt-2">Create New Job</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="title" className="block mb-2">
           Title
